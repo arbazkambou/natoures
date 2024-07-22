@@ -7,6 +7,7 @@ import { deleteBookingApi } from "@/apis/bookingApis";
 import { useContext } from "react";
 import { AuthContext } from "@/context/AuthProvider";
 import { formatDate, parseISO } from "date-fns";
+import { usersImages } from "@/apis/baseApiURL";
 
 function AdminBookingItem({ bookingItem }) {
   const { tour, user: bookedUser, price, _id: id, createdAt } = bookingItem;
@@ -28,7 +29,7 @@ function AdminBookingItem({ bookingItem }) {
           alt="Product img"
           className="aspect-square rounded-md object-cover"
           height="64"
-          src={bookedUser.imagePath}
+          src={`${usersImages}/${bookedUser.photo}`}
           width="64"
           crossOrigin="anonymous"
         />

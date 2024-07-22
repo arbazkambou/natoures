@@ -27,6 +27,7 @@ import { AuthContext } from "@/context/AuthProvider";
 import toast from "react-hot-toast";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { formatDate, parseISO } from "date-fns";
+import { toursImages } from "@/apis/baseApiURL";
 
 function ReviewItem({ reviewItem }) {
   const { review, createdAt, tour, rating, id } = reviewItem;
@@ -65,7 +66,7 @@ function ReviewItem({ reviewItem }) {
           alt="Product img"
           className="aspect-square rounded-md object-cover"
           height="64"
-          src={tour.imageCoverPath}
+          src={`${toursImages}/${tour.imageCover}`}
           width="64"
           crossOrigin="anonymous"
         />

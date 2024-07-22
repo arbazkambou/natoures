@@ -33,9 +33,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { deleteUserApi, updateUserApi } from "@/apis/userApis";
+import { usersImages } from "@/apis/baseApiURL";
 
 function UserItem({ userItem }) {
-  const { imagePath, name, email, id, status, role } = userItem;
+  const { photo, name, email, id, status, role } = userItem;
   const [userStatus, setUserStatus] = useState("");
   const [userRole, setUserRole] = useState("");
   const buttonRef = useRef(null);
@@ -77,7 +78,7 @@ function UserItem({ userItem }) {
           alt="Product img"
           className="aspect-square rounded-md object-cover"
           height="64"
-          src={imagePath}
+          src={`${usersImages}/${photo}`}
           width="64"
           crossOrigin="anonymous"
         />

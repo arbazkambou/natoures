@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthProvider";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { logoutApi } from "../apis/authApis";
 import { toast } from "react-hot-toast";
+import { usersImages } from "@/apis/baseApiURL";
 
 function Header() {
   const { isAuthenticated, user, setUser, setIsAuthenticated } =
@@ -22,7 +23,7 @@ function Header() {
     },
     onError: (err) => toast.error(err.message),
   });
-  const { name, imagePath } = user;
+  const { name, photo } = user;
   return (
     <header className="header">
       <nav className="nav nav--tours">
@@ -41,7 +42,7 @@ function Header() {
             </button>
             <Link className="nav__el" to={"account"}>
               <img
-                src={imagePath}
+                src={`${usersImages}/${photo}`}
                 alt={name}
                 className="nav__user-img"
                 crossOrigin="anonymous"

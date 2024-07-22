@@ -1,9 +1,10 @@
+import { toursImages } from "@/apis/baseApiURL";
 import { parseISO, formatDate } from "date-fns";
 import { Link } from "react-router-dom";
 function TourCard({ tour }) {
   const {
     name,
-    imageCoverPath,
+    imageCover,
     difficulty,
     duration,
     summary,
@@ -23,7 +24,7 @@ function TourCard({ tour }) {
         <div className="card__picture">
           <div className="card__picture-overlay">&nbsp;</div>
           <img
-            src={imageCoverPath}
+            src={`${toursImages}/${imageCover}`}
             alt={name}
             className="card__picture-img"
             crossOrigin="anonymous"

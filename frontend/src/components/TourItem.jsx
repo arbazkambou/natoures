@@ -6,10 +6,11 @@ import { queryClient } from "@/main";
 import toast from "react-hot-toast";
 import TourUpdateForm from "./TourUpdateForm";
 import { deleteTourApi } from "@/apis/tourApis";
+import { toursImages } from "@/apis/baseApiURL";
 
 function TourItem({ tourItem }) {
   const {
-    imageCoverPath,
+    imageCover,
     name,
     id,
     price,
@@ -34,7 +35,7 @@ function TourItem({ tourItem }) {
           alt="Product img"
           className="aspect-square rounded-md object-cover"
           height="64"
-          src={imageCoverPath}
+          src={`${toursImages}/${imageCover}`}
           width="64"
           crossOrigin="anonymous"
         />

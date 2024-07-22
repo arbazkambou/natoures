@@ -7,13 +7,14 @@ import { useMutation } from "@tanstack/react-query";
 import { bookTour } from "../apis/bookingApis";
 import { toast } from "react-hot-toast";
 import CreateReviewForm from "./CreateReviewForm";
+import { toursImages, usersImages } from "@/apis/baseApiURL";
 
 function Tour({ tour }) {
   const {
     name,
     difficulty,
     duration,
-    imageCoverPath,
+    imageCover,
     startLocation,
     startDates,
     locations,
@@ -21,7 +22,7 @@ function Tour({ tour }) {
     ratingsAverage,
     guides,
     description,
-    imagesPath,
+    images,
     reviews,
   } = tour;
   document.title = `Natours | ${tour.name}`;
@@ -46,7 +47,7 @@ function Tour({ tour }) {
           <div className="header__hero-overlay">&nbsp;</div>
           <img
             className="header__hero-img"
-            src={imageCoverPath}
+            src={`${toursImages}/${imageCover}`}
             alt={`${name}`}
             crossOrigin="anonymous"
           />
@@ -141,11 +142,11 @@ function Tour({ tour }) {
       </section>
 
       <section className="section-pictures">
-        {imagesPath.map((img, i) => (
+        {images.map((img, i) => (
           <div className="picture-box" key={i}>
             <img
               className={`picture-box__img picture-box__img--${i + 1}`}
-              src={img}
+              src={`${toursImages}/${img}`}
               alt="The Park Camper Tour 1"
               crossOrigin="anonymous"
             />
@@ -185,7 +186,7 @@ function Tour({ tour }) {
             <div className="reviews__card" key={i}>
               <div className="reviews__avatar">
                 <img
-                  src={review.user.imagePath}
+                  src={`${usersImages}/${review.user.photo}`}
                   alt={review.user.name}
                   className="reviews__avatar-img"
                   crossOrigin="anonymous"
@@ -216,13 +217,13 @@ function Tour({ tour }) {
               <img src="/img/logo-white.png" alt="Natours logo" className="" />
             </div>
             <img
-              src={imagesPath[1]}
+              src={`${toursImages}/${images[1]}`}
               alt=""
               className="cta__img cta__img--1"
               crossOrigin="anonymous"
             />
             <img
-              src={imagesPath[0]}
+              src={`${toursImages}/${images[2]}`}
               alt=""
               className="cta__img cta__img--2"
               crossOrigin="anonymous"

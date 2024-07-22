@@ -26,6 +26,7 @@ import { useRef } from "react";
 import toast from "react-hot-toast";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { formatDate, parseISO } from "date-fns";
+import { usersImages } from "@/apis/baseApiURL";
 
 function ManageReviewItem({ reviewItem }) {
   const { review, createdAt, tour, rating, id, user } = reviewItem;
@@ -63,7 +64,7 @@ function ManageReviewItem({ reviewItem }) {
           alt="Product img"
           className="aspect-square rounded-md object-cover"
           height="64"
-          src={user.imagePath}
+          src={`${usersImages}/${user.photo}`}
           width="64"
           crossOrigin="anonymous"
         />

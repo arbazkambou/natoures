@@ -3,9 +3,10 @@ import { Button } from "./ui/button";
 import { TableCell, TableRow } from "./ui/table";
 import { AuthContext } from "@/context/AuthProvider";
 import { useNavigate } from "react-router";
+import { toursImages } from "@/apis/baseApiURL";
 
 function BookingItem({ bookingItem }) {
-  const { ratingsAverage, name, imageCoverPath, price, id } = bookingItem;
+  const { ratingsAverage, name, imageCover, price, id } = bookingItem;
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -16,7 +17,7 @@ function BookingItem({ bookingItem }) {
           alt="Product img"
           className="aspect-square rounded-md object-cover"
           height="64"
-          src={imageCoverPath}
+          src={`${toursImages}/${imageCover}`}
           width="64"
           crossOrigin="anonymous"
         />
