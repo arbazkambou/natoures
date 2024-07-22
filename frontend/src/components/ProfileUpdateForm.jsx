@@ -4,11 +4,12 @@ import { updateMe } from "../apis/userApis";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthProvider";
 import toast from "react-hot-toast";
+import { usersImages } from "@/apis/baseApiURL";
 
 function ProfileUpdateForm() {
   const [fileName, setFilName] = useState("Choose new photo");
   const { user, setUser } = useContext(AuthContext);
-  const { name, email, imagePath } = user;
+  const { name, email, photo } = user;
   const { handleSubmit, register } = useForm();
   const { mutate, isPending } = useMutation({
     mutationFn: updateMe,
@@ -67,7 +68,7 @@ function ProfileUpdateForm() {
         <div className="form__group form__photo-upload">
           <img
             className="form__user-photo"
-            src={imagePath}
+            src={`${usersImages}/${photo}`}
             alt="User photo"
             crossOrigin="anonymous"
           />
@@ -81,9 +82,6 @@ function ProfileUpdateForm() {
             onChange={handleChange}
           />
           <label htmlFor="photo">{fileName}</label>
-          {/* <a className="btn-text" href="#">
-            Choose new photo
-          </a> */}
         </div>
         <div className="form__group right">
           <button
