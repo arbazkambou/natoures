@@ -1,16 +1,15 @@
-import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 import { AppError } from "./AppError";
+import { api } from "./baseApiURL";
 
 async function bookTour(tourId) {
   try {
     const stripePromise = loadStripe(
       "pk_test_51PdEyjRuF9N4LAaUyS25vEEM85avSJ9eOwGpMJK3h8TV2K0CX1DGY09GaEV7quuYiLmoYUM2pxA8yJJql3cxGLeE00RTq9sT6w"
     );
-    const res = await axios.get(
-      `http://localhost:3000/api/v1/bookings/checkout-session/${tourId}`,
-      { withCredentials: true }
-    );
+    const res = await api.get(`/bookings/checkout-session/${tourId}`, {
+      withCredentials: true,
+    });
     const session = res.data.session;
     const stripe = await stripePromise;
     await stripe.redirectToCheckout({
@@ -23,12 +22,12 @@ async function bookTour(tourId) {
 
 async function saveBooking(userId, tourId, price) {
   try {
-    const res = await axios.post(
-      `http://localhost:3000/api/v1/Bookings/saveBooking`,
+    const res = await api.post(
+      `/Bookings/saveBooking`,
       { tourId, userId, price },
       { withCredentials: true }
     );
-    const res2 = await axios.get("http://localhost:3000/api/v1/users/getMe", {
+    const res2 = await api.get("/users/getMe", {
       withCredentials: true,
     });
     localStorage.setItem("user", JSON.stringify(res2.data.docs));
@@ -41,8 +40,8 @@ async function saveBooking(userId, tourId, price) {
 
 async function myBookings() {
   try {
-    const res = await axios.get(
-      `http://localhost:3000/api/v1/Bookings/myBookings`,
+    const res = await api.get(
+      `/Bookings/myBookings`,
 
       { withCredentials: true }
     );
@@ -55,8 +54,8 @@ async function myBookings() {
 
 async function getAllBookings(page) {
   try {
-    const res = await axios.get(
-      `http://localhost:3000/api/v1/Bookings/?page=${page}`,
+    const res = await api.get(
+      `/Bookings/?page=${page}`,
 
       { withCredentials: true }
     );
@@ -71,8 +70,8 @@ async function getAllBookings(page) {
 
 async function deleteBookingApi(id) {
   try {
-    const res = await axios.delete(
-      `http://localhost:3000/api/v1/Bookings/${id}`,
+    const res = await api.delete(
+      `/Bookings/${id}`,
 
       { withCredentials: true }
     );
@@ -85,8 +84,8 @@ async function deleteBookingApi(id) {
 
 async function createBookingApi(data) {
   try {
-    const res = await axios.post(
-      `http://localhost:3000/api/v1/Bookings/`,
+    const res = await api.post(
+      `/Bookings/`,
       data,
 
       { withCredentials: true }

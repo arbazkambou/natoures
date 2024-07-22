@@ -1,24 +1,18 @@
-import axios from "axios";
 import { AppError } from "./AppError";
+import { api } from "./baseApiURL";
 
 async function updateMe(data) {
   try {
     let res;
     if (!data.password) {
-      res = await axios.patch(
-        "http://localhost:3000/api/v1/users/updateMe",
-        data,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-          withCredentials: true,
-        }
-      );
+      res = await api.patch("/users/updateMe", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true,
+      });
     } else {
-      res = await axios.patch(
-        "http://localhost:3000/api/v1/users/updatePassword",
-        data,
-        { withCredentials: true }
-      );
+      res = await api.patch("/users/updatePassword", data, {
+        withCredentials: true,
+      });
     }
     // console.log(data);
 
@@ -30,7 +24,7 @@ async function updateMe(data) {
 
 async function getAllUsers(page, role, status) {
   try {
-    let url = `http://localhost:3000/api/v1/users/?`;
+    let url = `/users/?`;
 
     if (page) {
       url = url + `page=${page}&`;
@@ -43,7 +37,7 @@ async function getAllUsers(page, role, status) {
       url = url + `status=${status}&`;
     }
 
-    const res = await axios.get(
+    const res = await api.get(
       url,
 
       {
@@ -62,13 +56,9 @@ async function getAllUsers(page, role, status) {
 
 async function updateUserApi({ data, id }) {
   try {
-    const res = await axios.patch(
-      `http://localhost:3000/api/v1/users/${id}`,
-      data,
-      {
-        withCredentials: true,
-      }
-    );
+    const res = await api.patch(`/users/${id}`, data, {
+      withCredentials: true,
+    });
     return res;
   } catch (error) {
     AppError(error);
@@ -76,7 +66,7 @@ async function updateUserApi({ data, id }) {
 }
 async function deleteUserApi(id) {
   try {
-    const res = await axios.delete(`http://localhost:3000/api/v1/users/${id}`, {
+    const res = await api.delete(`/users/${id}`, {
       withCredentials: true,
     });
     return res;

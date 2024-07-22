@@ -1,9 +1,9 @@
-import axios from "axios";
 import { AppError } from "./AppError";
+import { api } from "./baseApiURL";
 
 async function getTours() {
   try {
-    const res = await axios.get("http://localhost:3000/api/v1/tours", {
+    const res = await api.get("/tours", {
       withCredentials: true,
     });
 
@@ -18,10 +18,7 @@ async function getTours() {
 
 async function getTour(tourId) {
   try {
-    const res = await axios.get(
-      `http://localhost:3000/api/v1/tours/${tourId}`,
-      { withCredentials: true }
-    );
+    const res = await api.get(`/tours/${tourId}`, { withCredentials: true });
 
     return res.data.docs;
   } catch (error) {
@@ -29,29 +26,9 @@ async function getTour(tourId) {
   }
 }
 
-const fetchUserLocation = () => {
-  return new Promise((resolve, reject) => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          resolve({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-        },
-        (error) => {
-          reject(error.message);
-        }
-      );
-    } else {
-      reject("Geolocation is not supported by this browser.");
-    }
-  });
-};
-
 async function createTourApi(data) {
   try {
-    const res = await axios.post("http://localhost:3000/api/v1/tours", data, {
+    const res = await api.post("/tours", data, {
       headers: { "Content-Type": "multipart/form-data" },
       withCredentials: true,
     });
@@ -63,14 +40,10 @@ async function createTourApi(data) {
 
 async function updateTourApi({ id, formData }) {
   try {
-    const res = await axios.patch(
-      `http://localhost:3000/api/v1/tours/${id}`,
-      formData,
-      {
-        headers: { "Content-Type": "multipart/form-data" },
-        withCredentials: true,
-      }
-    );
+    const res = await api.patch(`/tours/${id}`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+      withCredentials: true,
+    });
     return res;
   } catch (error) {
     AppError(error);
@@ -79,8 +52,8 @@ async function updateTourApi({ id, formData }) {
 
 async function deleteTourApi(id) {
   try {
-    const res = await axios.delete(
-      `http://localhost:3000/api/v1/tours/${id}`,
+    const res = await api.delete(
+      `/tours/${id}`,
 
       {
         withCredentials: true,
@@ -92,11 +65,4 @@ async function deleteTourApi(id) {
   }
 }
 
-export {
-  getTours,
-  getTour,
-  fetchUserLocation,
-  createTourApi,
-  updateTourApi,
-  deleteTourApi,
-};
+export { getTours, getTour, createTourApi, updateTourApi, deleteTourApi };

@@ -1,15 +1,11 @@
-import axios from "axios";
 import { AppError } from "./AppError";
+import { api } from "./baseApiURL";
 
 async function loginApi(data) {
   try {
-    const res = await axios.post(
-      "http://localhost:3000/api/v1/users/login",
-      data,
-      {
-        withCredentials: true,
-      }
-    );
+    const res = await api.post("/users/login", data, {
+      withCredentials: true,
+    });
 
     const {
       id,
@@ -29,12 +25,9 @@ async function loginApi(data) {
 
 async function logoutApi() {
   try {
-    const res = await axios.delete(
-      "http://localhost:3000/api/v1/users/logout",
-      {
-        withCredentials: true,
-      }
-    );
+    const res = await api.delete("http://localhost:3000/api/v1/users/logout", {
+      withCredentials: true,
+    });
     return res;
   } catch (error) {
     AppError(error);
@@ -43,7 +36,7 @@ async function logoutApi() {
 
 async function signupApi(data) {
   try {
-    const res = await axios.post(
+    const res = await api.post(
       "http://localhost:3000/api/v1/users/signup",
       data
     );

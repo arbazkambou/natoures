@@ -1,13 +1,11 @@
-import axios from "axios";
 import { AppError } from "./AppError";
+import { api } from "./baseApiURL";
 
 async function createReview({ tourId, data }) {
   try {
-    const res = await axios.post(
-      `http://localhost:3000/api/v1/tours/${tourId}/reviews`,
-      data,
-      { withCredentials: true }
-    );
+    const res = await api.post(`/tours/${tourId}/reviews`, data, {
+      withCredentials: true,
+    });
     return res.data.docs;
   } catch (error) {
     AppError(error);
@@ -15,8 +13,8 @@ async function createReview({ tourId, data }) {
 }
 async function getAllUserReviews(userId) {
   try {
-    const res = await axios.get(
-      `http://localhost:3000/api/v1/users/${userId}/reviews`,
+    const res = await api.get(
+      `/users/${userId}/reviews`,
 
       { withCredentials: true }
     );
@@ -28,11 +26,11 @@ async function getAllUserReviews(userId) {
 
 async function getAllReviews(page) {
   try {
-    let url = `http://localhost:3000/api/v1/reviews?`;
+    let url = `/reviews?`;
     if (page) {
       url = url + `page=${page}`;
     }
-    const res = await axios.get(
+    const res = await api.get(
       url,
 
       { withCredentials: true }
@@ -50,8 +48,8 @@ async function getAllReviews(page) {
 
 async function deleteReviewApi(reviewId) {
   try {
-    const res = await axios.delete(
-      `http://localhost:3000/api/v1/reviews/${reviewId}`,
+    const res = await api.delete(
+      `/reviews/${reviewId}`,
 
       { withCredentials: true }
     );
@@ -62,11 +60,9 @@ async function deleteReviewApi(reviewId) {
 }
 async function updateReviewApi({ id, data }) {
   try {
-    const res = await axios.patch(
-      `http://localhost:3000/api/v1/reviews/${id}`,
-      data,
-      { withCredentials: true }
-    );
+    const res = await api.patch(`/reviews/${id}`, data, {
+      withCredentials: true,
+    });
     return res;
   } catch (error) {
     AppError(error);

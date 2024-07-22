@@ -50,11 +50,11 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // Rate limiter from express-rate-limit package
-const limiter = rateLimit({
-  limit: 200,
-  windowMs: 60 * 60 * 1000,
-  message: "Too many requests from your side. Please try again after an hour",
-});
+// const limiter = rateLimit({
+//   limit: 200,
+//   windowMs: 60 * 60 * 1000,
+//   message: "Too many requests from your side. Please try again after an hour",
+// });
 
 //Express mongo sanitize middleware for preventing NoSql injections
 app.use(ExpressMongoSanitize());
@@ -77,7 +77,7 @@ app.use(
 );
 
 // Global middleware for rate limiting
-app.use("/api", limiter);
+// app.use("/api", limiter);
 
 // app.get("/", (req, res) => {
 //   res.status(200).json({
