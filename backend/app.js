@@ -20,6 +20,8 @@ dotenv.config({ path: "./config.env" });
 //Creating app instance of express method
 const app = express();
 
+app.set("trust proxy", 1);
+
 app.use(
   cors({
     origin: ["http://localhost:5173"],
@@ -27,8 +29,6 @@ app.use(
     credentials: true,
   }),
 );
-
-app.set("trust proxy", 1);
 
 //Setting the important http headers by using helmet library
 app.use(helmet());
