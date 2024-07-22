@@ -24,6 +24,7 @@ function Tour({ tour }) {
     description,
     images,
     reviews,
+    bookings,
   } = tour;
   document.title = `Natours | ${tour.name}`;
   const { isAuthenticated, user } = useContext(AuthContext);
@@ -34,8 +35,8 @@ function Tour({ tour }) {
 
   const { tourId } = useParams();
   let isBooked = false;
-  if (user.bookedTours.length > 0) {
-    isBooked = user.bookedTours.some((el) => el.tour.id === tourId);
+  if (bookings.length > 0) {
+    isBooked = bookings.some((el) => el.user.id === user.id);
   }
 
   const isReviewed = reviews.some((el) => el.user.id === user.id);
@@ -116,7 +117,7 @@ function Tour({ tour }) {
               {guides.map((guide) => (
                 <div className="overview-box__detail" key={guide.id}>
                   <img
-                    src={guide.imagePath}
+                    src={`${usersImages}/${guide.photo}`}
                     alt={guide.name}
                     className="overview-box__img"
                     crossOrigin="anonymous"

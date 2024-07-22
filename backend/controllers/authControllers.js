@@ -299,7 +299,7 @@ export async function forgortPassword(req, res, next) {
     await user.save({ validateBeforeSave: false });
 
     //4).Sending the plain token to client
-    const resetURL = `${req.protocol}://${req.get("host")}/api/v1/users/resetPassword/${resetToken}`;
+    const resetURL = `http://localhost:5173/resetPassword/${resetToken}`;
 
     try {
       await new Email(user, resetURL).sendForgotPassword();
@@ -312,7 +312,8 @@ export async function forgortPassword(req, res, next) {
 
     res.status(200).json({
       status: "success",
-      message: "Token sent to email!",
+      message:
+        "An email has been sent to you. Please verify it in order to reset your password!",
     });
   } catch (err) {
     next(AppError(err.message, 404, err));
@@ -351,18 +352,10 @@ export async function resetPassword(req, res, next) {
     user.passwordResetExpires = undefined;
     await user.save();
 
-    //4). Generate the token and send as response
-    const token = generateToken(user._id);
-    const cookieOptions = {
-      maxAge: process.env.COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
-      // secure: process.env.NODE_ENV === "production", //So that it can only be worked on https connection
-      httpOnly: true, //So that browser can not modified it
-      withCredentials: true,
-    };
-    res.cookie("token", token, cookieOptions);
     res.status(200).json({
       status: "success",
-      token,
+      message:
+        "Your password has been reset. Please login again with your new credentials!",
     });
   } catch (err) {
     return next(AppError(err.message, 401, err));

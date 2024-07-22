@@ -14,7 +14,7 @@ export class Email {
   }
 
   newTransport() {
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV === "production") {
       return nodemailer.createTransport({
         host: process.env.BREVO_HOST,
         port: process.env.BREVO_PORT,

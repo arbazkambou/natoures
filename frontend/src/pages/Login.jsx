@@ -21,6 +21,18 @@ function Login() {
     },
     onError: (err) => toast.error(err.message),
   });
+  // const { mutate, isPending } = useMutation({
+  //   mutationFn: loginApi,
+  //   mutationKey: ["login"],
+  //   onSuccess: (user) => {
+  //     toast.success(`Welcome ${user.name}!`);
+  //     localStorage.setItem("user", JSON.stringify(user));
+  //     // setIsAuthenticated(true);
+  //     setUser(user);
+  //     navigate("/");
+  //   },
+  //   onError: (err) => toast.error(err.message),
+  // });
 
   function onSubmit(data) {
     data.rating = Number(data.rating);
@@ -59,9 +71,16 @@ function Login() {
             {...register("password", { required: true })}
           />
         </div>
-        <div className="form__group">
+        <div className="form__group flex justify-between">
           <button className="btn btn--green" type="submit" disabled={isPending}>
             {isPending ? "Logging in..." : "login"}
+          </button>
+          <button
+            className="btn btn--green"
+            disabled={isPending}
+            onClick={() => navigate("/forgotPassword")}
+          >
+            Forgot?
           </button>
         </div>
       </form>

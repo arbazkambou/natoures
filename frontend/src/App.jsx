@@ -16,6 +16,8 @@ import MyReviews from "./pages/MyReviews";
 import ManageReviews from "./pages/ManageReviews";
 import ManageTours from "./pages/ManageTours";
 import ManageBookings from "./pages/ManageBookings";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,23 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <ToursOverview />,
+      },
+
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "signup",
+        element: <Signup />,
+      },
+      {
+        path: "forgotPassword",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "resetPassword/:resetToken",
+        element: <ResetPassword />,
       },
       {
         path: "tour-detail/:tourId",
@@ -77,15 +96,6 @@ const router = createBrowserRouter([
             <SuccessPage />
           </ProtectedRoute>
         ),
-      },
-
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/signup",
-        element: <Signup />,
       },
     ],
   },

@@ -6,7 +6,6 @@ async function getTours() {
     const res = await api.get("/tours", {
       withCredentials: true,
     });
-
     const tours = res.data.data;
     const totalTours = res.data.totalDocs;
     const data = { tours, totalTours };

@@ -38,7 +38,7 @@ function ManageBookings() {
     },
     [page]
   );
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading } = useQuery({
     queryFn: () => getAllBookings(page),
     queryKey: ["bookings"],
   });
@@ -63,12 +63,14 @@ function ManageBookings() {
           </div>
         </div>
       </CardHeader>
-      {error && (
+      {data.bookings.length === 0 && (
         <CardContent>
-          <CardHeader>{error.message}</CardHeader>
+          <CardHeader>
+            It seems there is not any booking on website 🙂
+          </CardHeader>
         </CardContent>
       )}
-      {data && (
+      {data.bookings.length > 0 && (
         <>
           <CardContent>
             <Table>

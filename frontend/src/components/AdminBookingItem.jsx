@@ -4,20 +4,17 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { queryClient } from "@/main";
 import { deleteBookingApi } from "@/apis/bookingApis";
-import { useContext } from "react";
-import { AuthContext } from "@/context/AuthProvider";
 import { formatDate, parseISO } from "date-fns";
 import { usersImages } from "@/apis/baseApiURL";
 
 function AdminBookingItem({ bookingItem }) {
   const { tour, user: bookedUser, price, _id: id, createdAt } = bookingItem;
-  const { user } = useContext(AuthContext);
   const { mutate: deleteBooking, isPending } = useMutation({
     mutationFn: deleteBookingApi,
     onSuccess: () => {
       toast.success("Booking has been deleted!");
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
-      queryClient.invalidateQueries({ queryKey: ["tour", user.id] });
+      queryClient.invalidateQueries({ queryKey: ["tour", tour.id] });
     },
     onError: (err) => toast.error(err.message),
   });

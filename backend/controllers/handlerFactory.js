@@ -123,7 +123,10 @@ const getOne = (Model, populateOptions) => async (req, res, next) => {
   try {
     let query = Model.findById(req.params.id);
     if (populateOptions) {
-      query = query.populate(populateOptions);
+      query = query.populate(populateOptions).populate({
+        path: "bookings",
+        select: "user",
+      });
     }
     const docs = await query;
     if (!docs) {
@@ -181,9 +184,10 @@ const getAll = (Model) => async (req, res, next) => {
     limit = Number(limit || 10);
     const skip = (page - 1) * limit;
     const totalDocs = await Model.countDocuments();
-
-    if (skip >= totalDocs) {
-      throw new Error("Requested page does not exist!");
+    if (Model !== Booking) {
+      if (skip >= totalDocs) {
+        throw new Error("Requested page does not exist!");
+      }
     }
     query = query.skip(skip).limit(limit);
 

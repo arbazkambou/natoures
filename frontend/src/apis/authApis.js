@@ -25,7 +25,7 @@ async function loginApi(data) {
 
 async function logoutApi() {
   try {
-    const res = await api.delete("http://localhost:3000/api/v1/users/logout", {
+    const res = await api.delete("/users/logout", {
       withCredentials: true,
     });
     return res;
@@ -36,13 +36,28 @@ async function logoutApi() {
 
 async function signupApi(data) {
   try {
-    const res = await api.post(
-      "http://localhost:3000/api/v1/users/signup",
-      data
-    );
+    const res = await api.post("/users/signup", data);
     return res.data.message;
   } catch (error) {
     AppError(error);
   }
 }
-export { loginApi, logoutApi, signupApi };
+
+async function forgotPasswordApi(data) {
+  try {
+    const res = await api.post("/users/forgotPassword", data);
+    return res.data.message;
+  } catch (error) {
+    AppError(error);
+  }
+}
+
+async function resetPasswordApi({ resetToken, data }) {
+  try {
+    const res = await api.post(`/users/resetPassword/${resetToken}`, data);
+    return res.data.message;
+  } catch (error) {
+    AppError(error);
+  }
+}
+export { loginApi, logoutApi, signupApi, forgotPasswordApi, resetPasswordApi };

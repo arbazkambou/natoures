@@ -134,6 +134,12 @@ tourSchema.virtual("reviews", {
   localField: "_id",
 });
 
+tourSchema.virtual("bookings", {
+  ref: "Booking",
+  foreignField: "tour",
+  localField: "_id",
+});
+
 // tourSchema.virtual("imageCoverPath").get(function () {
 //   if (this.imageCover) {
 //     return `http://localhost:3000/public/img/tours/${this.imageCover}`;
@@ -191,11 +197,12 @@ tourSchema.pre(/^find/, function (next) {
 //   next();
 // });
 
-tourSchema.pre(/^find/, async function () {
+tourSchema.pre(/^find/, async function (next) {
   this.populate({
     path: "guides",
     select: "-__v -passwordChangedAt",
   });
+  next();
 });
 
 // tourSchema.post(/^find/, function (doc, next) {

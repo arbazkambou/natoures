@@ -90,13 +90,6 @@ userSchema.pre(/^find/, function (next) {
   next();
 });
 
-userSchema.pre(/^findOne/, function (next) {
-  this.populate({
-    path: "bookedTours",
-    select: "tour -_id -user",
-  });
-  next();
-});
 const User = mongoose.model("User", userSchema);
 
 export default User;
