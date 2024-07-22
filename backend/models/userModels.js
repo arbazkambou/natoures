@@ -61,9 +61,9 @@ const userSchema = mongoose.Schema(
   },
 );
 
-userSchema.virtual("imagePath").get(function () {
-  return `http://localhost:3000/public/img/users/${this.photo}`;
-});
+// userSchema.virtual("imagePath").get(function () {
+//   return `http://localhost:3000/public/img/users/${this.photo}`;
+// });
 
 userSchema.virtual("bookedTours", {
   ref: "Booking",

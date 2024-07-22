@@ -134,19 +134,19 @@ tourSchema.virtual("reviews", {
   localField: "_id",
 });
 
-tourSchema.virtual("imageCoverPath").get(function () {
-  if (this.imageCover) {
-    return `http://localhost:3000/public/img/tours/${this.imageCover}`;
-  }
-});
+// tourSchema.virtual("imageCoverPath").get(function () {
+//   if (this.imageCover) {
+//     return `http://localhost:3000/public/img/tours/${this.imageCover}`;
+//   }
+// });
 
-tourSchema.virtual("imagesPath").get(function () {
-  if (this.images && this.images.length > 0) {
-    return this.images.map(
-      (image) => `http://localhost:3000/public/img/tours/${image}`,
-    );
-  }
-});
+// tourSchema.virtual("imagesPath").get(function () {
+//   if (this.images && this.images.length > 0) {
+//     return this.images.map(
+//       (image) => `http://localhost:3000/public/img/tours/${image}`,
+//     );
+//   }
+// });
 ///Document middlware: runs before .save() and .create() method not any or method like insertMany() and has doc that is being sent to database for save
 tourSchema.pre("save", function (next) {
   // console.log(this); this keyword will have the document that will be saved to database
