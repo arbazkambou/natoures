@@ -173,9 +173,10 @@ export async function login(req, res, next) {
     const token = generateToken(user._id);
     const cookieOptions = {
       maxAge: process.env.COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
-      // secure: process.env.NODE_ENV === "production", //So that it can only be worked on https connection
+      secure: process.env.NODE_ENV === "production", //So that it can  be sent on https connection
       httpOnly: true, //So that browser can not modified it
       withCredentials: true,
+      sameSite: "None",
     };
     res.cookie("token", token, cookieOptions);
     const {

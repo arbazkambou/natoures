@@ -41,11 +41,12 @@ app.use("/public", express.static("public"));
 
 //For getting the cookies sent by browser
 app.use(cookieParser());
+
 //Our own custom middleware just of tetsing purposes
-app.use((req, res, next) => {
-  req.requestTime = new Date().toLocaleString();
-  next();
-});
+// app.use((req, res, next) => {
+//   req.requestTime = new Date().toLocaleString();
+//   next();
+// });
 
 //Morgan middlware
 if (process.env.NODE_ENV === "development") {
