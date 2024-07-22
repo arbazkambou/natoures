@@ -176,7 +176,7 @@ export async function login(req, res, next) {
       secure: process.env.NODE_ENV === "production", //So that it can  be sent on https connection
       httpOnly: true, //So that browser can not modified it
       withCredentials: true,
-      sameSite: "Strict",
+      sameSite: "Lax",
     };
     res.cookie("token", token, cookieOptions);
     const {
