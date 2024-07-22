@@ -29,8 +29,8 @@ async function getCheckoutSession(req, res, next) {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
-      success_url: `http://localhost:5173/tour/${req.params.tourId}/user/${req.user.id}/price/${tour.price}`,
-      cancel_url: `http://localhost:5173/tour-detail/${tour.id}`,
+      success_url: `${process.env.FRONTEND_ORIGIN}/tour/${req.params.tourId}/user/${req.user.id}/price/${tour.price}`,
+      cancel_url: `${process.env.FRONTEND_ORIGIN}/tour-detail/${tour.id}`,
       customer_email: req.user.email,
       client_reference_id: req.params.id,
       line_items: [
@@ -41,7 +41,7 @@ async function getCheckoutSession(req, res, next) {
               name: `${tour.name} Tour`,
               description: tour.summary,
               images: [
-                `https://natoures.onrender.com/public/img/tours/${tour.imageCover}`,
+                `${process.env.BACKEND_ORIGIN}/public/img/tours/${tour.imageCover}`,
               ],
             },
             unit_amount: tour.price * 100,

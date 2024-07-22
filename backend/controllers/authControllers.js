@@ -60,7 +60,7 @@ export async function confirmEmail(req, res, next) {
     const token = req.params.token;
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     await User.findByIdAndUpdate(decoded.id, { status: "active" });
-    res.redirect("http://localhost:5173/login");
+    res.redirect(`${process.env.FRONTEND_ORIGIN}/login`);
   } catch (err) {
     if (err.name === "TokenExpiredError") {
       const token = jwt.sign(
@@ -299,7 +299,7 @@ export async function forgortPassword(req, res, next) {
     await user.save({ validateBeforeSave: false });
 
     //4).Sending the plain token to client
-    const resetURL = `http://localhost:5173/resetPassword/${resetToken}`;
+    const resetURL = `${process.env.FRONTEND_ORIGIN}/resetPassword/${resetToken}`;
 
     try {
       await new Email(user, resetURL).sendForgotPassword();
