@@ -7,7 +7,6 @@ import {
   getBooking,
   getCheckoutSession,
   myBookings,
-  saveBooking,
   updateBooking,
 } from "../controllers/bookingController.js";
 
@@ -24,7 +23,7 @@ bookingRouter
   .patch(protect, restrict("admin"), updateBooking)
   .delete(protect, restrict("admin"), deleteBooking);
 
-bookingRouter.post("/saveBooking", protect, saveBooking);
+// bookingRouter.post("/saveBooking", protect, saveBooking);
 bookingRouter.get("/checkout-session/:tourId", protect, getCheckoutSession);
 
 export default bookingRouter;

@@ -9,6 +9,7 @@ import {
   getOne,
   updateOne,
 } from "./handlerFactory.js";
+import User from "../models/userModels.js";
 
 async function getCheckoutSession(req, res, next) {
   try {
@@ -29,10 +30,10 @@ async function getCheckoutSession(req, res, next) {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
-      success_url: `${process.env.FRONTEND_ORIGIN}/tour/${req.params.tourId}/user/${req.user.id}/price/${tour.price}`,
+      success_url: `${process.env.FRONTEND_ORIGIN}/tourBooked/`,
       cancel_url: `${process.env.FRONTEND_ORIGIN}/tour-detail/${tour.id}`,
       customer_email: req.user.email,
-      client_reference_id: req.params.id,
+      client_reference_id: req.params.tourId,
       line_items: [
         {
           price_data: {
@@ -58,17 +59,8 @@ async function getCheckoutSession(req, res, next) {
   }
 }
 
-async function stripeWebhookMiddleware(req, res, next) {
-  // const sig = req.headers["Stripe-Signature"];
-  // console.log("sigg", sig);
-  // console.log("body", req.body);
-  // console.log("secret", process.env.STRIPE_WEBHOOK_SECRET);
-
+async function stripeWebhookMiddleware(req, res) {
   const sig = req.headers["stripe-signature"];
-  console.log("Headers:", req.headers);
-  console.log("Signature:", sig);
-  console.log("Body:", req.body);
-  console.log("Secret:", process.env.STRIPE_WEBHOOK_SECRET);
   let event;
 
   try {
@@ -81,22 +73,24 @@ async function stripeWebhookMiddleware(req, res, next) {
     res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
+  if (event.type === "checkout.session.completed") {
+    saveBooking(event.data.object);
+  }
+
   // Return a response to acknowledge receipt of the event
   res.status(200).json({ received: true, data: event.data.object });
 }
 
-async function saveBooking(req, res, next) {
-  try {
-    const { tourId, userId, price } = req.body;
-    await Booking.create({
-      tour: tourId,
-      user: userId,
-      price: price,
-    });
-    res.status(200).json({ status: "Ok" });
-  } catch (error) {
-    return next(AppError(error.message, 404, error));
-  }
+async function saveBooking(bookingData) {
+  // const { tourId, userId, price } = req.body;
+  const tourId = bookingData.client_reference_id;
+  const user = await User.findOne({ email: bookingData.email });
+  const tour = await Tour.findById(tourId);
+  await Booking.create({
+    tour: tourId,
+    user: user._id,
+    price: tour.price,
+  });
 }
 
 async function myBookings(req, res, next) {

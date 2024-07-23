@@ -51,6 +51,10 @@ const router = createBrowserRouter([
         element: <TourDetail />,
       },
       {
+        path: "tourBooked",
+        element: <SuccessPage />,
+      },
+      {
         path: "account",
         element: (
           <ProtectedRoute>
@@ -88,14 +92,6 @@ const router = createBrowserRouter([
             element: <ManageBookings />,
           },
         ],
-      },
-      {
-        path: "/tour/:tourId/user/:userId/price/:price",
-        element: (
-          <ProtectedRoute>
-            <SuccessPage />
-          </ProtectedRoute>
-        ),
       },
     ],
   },
