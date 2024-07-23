@@ -58,6 +58,28 @@ async function getCheckoutSession(req, res, next) {
   }
 }
 
+async function stripeWebhookMiddleware(req, res, next) {
+  const sig = req.headers["Stripe-Signature"];
+
+  let event;
+
+  try {
+    event = Stripe.webhooks.constructEvent(
+      req.body,
+      sig,
+      process.env.STRIPE_WEBHOOK_SECRET,
+    );
+  } catch (err) {
+    res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+  if (event.type === "checkout.session.completed") {
+    console.log(event.data.object);
+  }
+
+  // Return a response to acknowledge receipt of the event
+  res.json({ received: true, data: event.data.object });
+}
+
 async function saveBooking(req, res, next) {
   try {
     const { tourId, userId, price } = req.body;
@@ -99,4 +121,5 @@ export {
   updateBooking,
   deleteBooking,
   createBooking,
+  stripeWebhookMiddleware,
 };

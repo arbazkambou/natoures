@@ -13,6 +13,8 @@ import reviewRouter from "./routes/reviewRoutes.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import bookingRouter from "./routes/bookingRoutes.js";
+import Stripe from "stripe";
+import { stripeWebhookMiddleware } from "./controllers/bookingController.js";
 
 //Reading configuration from config.env using dotenv package
 dotenv.config({ path: "./config.env" });
@@ -24,10 +26,17 @@ app.set("trust proxy", 1);
 
 app.use(
   cors({
-    origin: [process.env.FRONTEND_ORIGIN],
+    // origin: [process.env.FRONTEND_ORIGIN],
+    origin: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"],
     credentials: true,
   }),
+);
+
+app.post(
+  "/stripeWebhook",
+  express.raw({ type: "application/json" }),
+  stripeWebhookMiddleware,
 );
 
 //Setting the important http headers by using helmet library
