@@ -86,6 +86,10 @@ async function saveBooking(bookingData) {
   const tourId = bookingData.client_reference_id;
   const user = await User.findOne({ email: bookingData.email });
   const tour = await Tour.findById(tourId);
+  console.log("tourdId", tourId);
+  console.log("user", user._id);
+  console.log("price", tour.price);
+
   await Booking.create({
     tour: tourId,
     user: user._id,
