@@ -84,6 +84,7 @@ async function stripeWebhookMiddleware(req, res) {
 async function saveBooking(bookingData) {
   // const { tourId, userId, price } = req.body;
   const tourId = bookingData.client_reference_id;
+  console.log("email", bookingData.email);
   const user = await User.findOne({ email: bookingData.email });
   const tour = await Tour.findById(tourId);
   console.log("tourdId", tourId);
