@@ -60,42 +60,47 @@ async function getCheckoutSession(req, res, next) {
 }
 
 async function stripeWebhookMiddleware(req, res) {
-  const sig = req.headers["stripe-signature"];
-  let event;
-
   try {
-    event = Stripe.webhooks.constructEvent(
-      req.body,
-      sig,
-      process.env.STRIPE_WEBHOOK_SECRET,
-    );
-  } catch (err) {
-    res.status(400).send(`Webhook Error: ${err.message}`);
-  }
+    const sig = req.headers["stripe-signature"];
+    let event;
+    try {
+      event = Stripe.webhooks.constructEvent(
+        req.body,
+        sig,
+        process.env.STRIPE_WEBHOOK_SECRET,
+      );
+    } catch (err) {
+      res.status(400).send(`Webhook Error: ${err.message}`);
+    }
 
-  if (event.type === "checkout.session.completed") {
-    await saveBooking(event.data.object);
-  }
+    if (event.type === "checkout.session.completed") {
+      await saveBooking(event.data.object);
+    }
 
-  // Return a response to acknowledge receipt of the event
-  res.status(200).json({ received: true, data: event.data.object });
+    // Return a response to acknowledge receipt of the event
+    res.status(200).json({ received: true, data: event.data.object });
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 async function saveBooking(bookingData) {
-  // const { tourId, userId, price } = req.body;
-  const tourId = bookingData.client_reference_id;
-  console.log("email", bookingData.email);
-  const user = await User.findOne({ email: bookingData.email });
-  const tour = await Tour.findById(tourId);
-  console.log("tourdId", tourId);
-  console.log("user", user._id);
-  console.log("price", tour.price);
+  try {
+    // const { tourId, userId, price } = req.body;
+    const tourId = bookingData.client_reference_id;
+    const user = await User.findOne({
+      email: bookingData.customer_details.email,
+    });
+    const tour = await Tour.findById(tourId);
 
-  await Booking.create({
-    tour: tourId,
-    user: user._id,
-    price: tour.price,
-  });
+    await Booking.create({
+      tour: tourId,
+      user: user._id,
+      price: tour.price,
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 async function myBookings(req, res, next) {
