@@ -8,7 +8,7 @@ import { bookTour } from "../apis/bookingApis";
 import { toast } from "react-hot-toast";
 import CreateReviewForm from "./CreateReviewForm";
 import { toursImages, usersImages } from "@/apis/baseApiURL";
-import markerIconPng from "/leaflet/images/marker-icon-2x.png";
+import markerIconPng from "../../public/leaflet/images/marker-icon-2x.png";
 import { Icon } from "leaflet";
 
 function Tour({ tour }) {
