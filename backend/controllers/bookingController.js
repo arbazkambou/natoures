@@ -60,7 +60,7 @@ async function getCheckoutSession(req, res, next) {
 
 async function stripeWebhookMiddleware(req, res, next) {
   const sig = req.headers["Stripe-Signature"];
-  console.log("sig", sig);
+  console.log("sigg", sig);
   console.log("body", req.body);
   console.log("secret", process.env.STRIPE_WEBHOOK_SECRET);
   let event;
