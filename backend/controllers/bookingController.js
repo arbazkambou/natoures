@@ -74,7 +74,7 @@ async function stripeWebhookMiddleware(req, res) {
   }
 
   if (event.type === "checkout.session.completed") {
-    saveBooking(event.data.object);
+    await saveBooking(event.data.object);
   }
 
   // Return a response to acknowledge receipt of the event
