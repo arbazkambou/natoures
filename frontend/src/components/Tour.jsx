@@ -8,7 +8,8 @@ import { bookTour } from "../apis/bookingApis";
 import { toast } from "react-hot-toast";
 import CreateReviewForm from "./CreateReviewForm";
 import { toursImages, usersImages } from "@/apis/baseApiURL";
-
+import markerIconPng from "/dist/images/marker-icon-2x.png";
+import { Icon } from "leaflet";
 function Tour({ tour }) {
   const {
     name,
@@ -171,6 +172,13 @@ function Tour({ tour }) {
               <Marker
                 position={[loc.coordinates[1], loc.coordinates[0]]}
                 key={i}
+                icon={
+                  new Icon({
+                    iconUrl: markerIconPng,
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                  })
+                }
               >
                 <Popup>
                   Day {loc.day}: {loc.description}

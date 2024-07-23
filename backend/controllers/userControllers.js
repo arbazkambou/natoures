@@ -50,12 +50,12 @@ const photoResizeMiddleware = async (req, res, next) => {
 async function updateMe(req, res, next) {
   try {
     //1) Extracting the data from the body that we allowed the user to udpate
-    const { email, name, ...notTobeUpdate } = req.body;
+    const { email, name } = req.body;
     const { _id: userId } = req.user;
 
-    if (Object.keys(notTobeUpdate).length !== 0) {
-      return next(AppError("You can only update your name or email here", 400));
-    }
+    // if (Object.keys(notTobeUpdate).length !== 0) {
+    //   return next(AppError("You can only update your name or email here", 400));
+    // }
 
     const dataToBeUpdate = { email, name };
     if (req.file) {
