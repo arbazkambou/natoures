@@ -59,7 +59,6 @@ async function getCheckoutSession(req, res, next) {
 }
 
 async function stripeWebhookMiddleware(req, res, next) {
-  console.log(req.body);
   const sig = req.headers["Stripe-Signature"];
 
   let event;
@@ -73,12 +72,10 @@ async function stripeWebhookMiddleware(req, res, next) {
   } catch (err) {
     res.status(400).send(`Webhook Error: ${err.message}`);
   }
-  if (event.type === "checkout.session.completed") {
-    console.log(event.data.object);
-  }
+  console.log(event);
 
   // Return a response to acknowledge receipt of the event
-  res.json({ received: true, data: event.data.object });
+  res.status(200).json({ received: true, data: event.data.object });
 }
 
 async function saveBooking(req, res, next) {
