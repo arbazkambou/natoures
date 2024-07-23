@@ -60,7 +60,9 @@ async function getCheckoutSession(req, res, next) {
 
 async function stripeWebhookMiddleware(req, res, next) {
   const sig = req.headers["Stripe-Signature"];
-
+  console.log("sig", sig);
+  console.log("body", req.body);
+  console.log("secret", process.env.STRIPE_WEBHOOK_SECRET);
   let event;
 
   try {
@@ -72,7 +74,6 @@ async function stripeWebhookMiddleware(req, res, next) {
   } catch (err) {
     res.status(400).send(`Webhook Error: ${err.message}`);
   }
-  console.log(event);
 
   // Return a response to acknowledge receipt of the event
   res.status(200).json({ received: true, data: event.data.object });
