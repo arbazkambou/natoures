@@ -10,7 +10,7 @@ let login_attempts = { email: "" };
 
 export async function signup(req, res, next) {
   try {
-    const { name, email, password, passwordConfirm, role } = req.body;
+    const { name, email, password, passwordConfirm } = req.body;
     //1). Check if user with provided email is already registered?
     const user = await User.findOne({ email: email });
 
@@ -36,7 +36,6 @@ export async function signup(req, res, next) {
       email,
       password,
       passwordConfirm,
-      role,
     });
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: "10m",
